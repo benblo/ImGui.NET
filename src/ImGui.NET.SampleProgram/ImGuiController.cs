@@ -5,7 +5,6 @@ using System.Reflection;
 using System.IO;
 using Veldrid;
 using System.Runtime.CompilerServices;
-using ImGui.NET.SampleProgram;
 using Veldrid.Sdl2;
 using System.Runtime.InteropServices;
 
