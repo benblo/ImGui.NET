@@ -81,7 +81,18 @@ namespace ImGuiNET
             // Demo code adapted from the official Dear ImGui demo program:
             // https://github.com/ocornut/imgui/blob/master/examples/example_win32_directx11/main.cpp#L172
 
-            // 1. Show a simple window.
+            // 1. Show the ImGui demo window. Most of the sample code is in ImGui.ShowDemoWindow(). Read its code to learn more about Dear ImGui!
+            // Do this first so next windows can be docked when enabling the demo dockspace.
+            // NOTE: looks like the implicit "Debug" window cannot be docked...
+            if (_showImGuiDemoWindow)
+            {
+                // Normally user code doesn't need/want to call this because positions are saved in .ini file anyway.
+                // Here we just want to make the demo initial state a bit more friendly!
+                ImGui.SetNextWindowPos(new Vector2(650, 20), ImGuiCond.FirstUseEver);
+                ImGui.ShowDemoWindow(ref _showImGuiDemoWindow);
+            }
+
+            // 2. Show a simple window.
             // Tip: if we don't call ImGui.BeginWindow()/ImGui.EndWindow() the widgets automatically appears in a window called "Debug".
             {
                 ImGui.Text("Hello, world!");                                        // Display some text (you can use a format string too)
@@ -105,7 +116,7 @@ namespace ImGuiNET
                 ImGui.Text($"Application average {1000.0f / framerate:0.##} ms/frame ({framerate:0.#} FPS)");
             }
 
-            // 2. Show another simple window. In most cases you will use an explicit Begin/End pair to name your windows.
+            // 3. Show another simple window. In most cases you will use an explicit Begin/End pair to name your windows.
             if (_showAnotherWindow)
             {
                 ImGui.Begin("Another Window", ref _showAnotherWindow);
@@ -115,15 +126,6 @@ namespace ImGuiNET
                 ImGui.End();
             }
 
-            // 3. Show the ImGui demo window. Most of the sample code is in ImGui.ShowDemoWindow(). Read its code to learn more about Dear ImGui!
-            if (_showImGuiDemoWindow)
-            {
-                // Normally user code doesn't need/want to call this because positions are saved in .ini file anyway.
-                // Here we just want to make the demo initial state a bit more friendly!
-                ImGui.SetNextWindowPos(new Vector2(650, 20), ImGuiCond.FirstUseEver);
-                ImGui.ShowDemoWindow(ref _showImGuiDemoWindow);
-            }
-            
             if (ImGui.TreeNode("Tabs"))
             {
                 if (ImGui.TreeNode("Basic"))
