@@ -26,7 +26,7 @@ namespace ImGuiNET
             //Random random = new Random();
             //_memoryEditorData = Enumerable.Range(0, 1024).Select(i => (byte)random.Next(255)).ToArray();
 
-            ImVeldridApp.Run("ImGui.NET Sample Program", SubmitUI);
+            new ImVeldridApp().Run("ImGui.NET Sample Program", SubmitUI);
         }
 
         private static unsafe void SubmitUI()

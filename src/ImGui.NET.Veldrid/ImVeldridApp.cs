@@ -6,15 +6,15 @@ using Veldrid.StartupUtilities;
 
 namespace ImGuiNET
 {
-    public static class ImVeldridApp
+    public class ImVeldridApp
     {
-        private static Sdl2Window _window;
-        private static GraphicsDevice _gd;
-        private static CommandList _cl;
-        private static ImGuiController _controller;
-        private static Vector3 _clearColor = new Vector3(0.45f, 0.55f, 0.6f);
+        private Sdl2Window _window;
+        private GraphicsDevice _gd;
+        private CommandList _cl;
+        private ImGuiController _controller;
+        private Vector3 _clearColor = new Vector3(0.45f, 0.55f, 0.6f);
 
-        public static void Run(string windowTitle, Action uiLoop)
+        public void Run(string windowTitle, Action uiLoop)
         {
             // Create window, GraphicsDevice, and all resources necessary for the demo.
             VeldridStartup.CreateWindowAndGraphicsDevice(
