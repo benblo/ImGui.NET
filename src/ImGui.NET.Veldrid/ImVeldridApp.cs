@@ -54,15 +54,15 @@ namespace ImGuiNET
                 new WindowCreateInfo(50, 50, 1280, 720, WindowState.Normal, windowTitle),
                 new GraphicsDeviceOptions(true, null, true, ResourceBindingModel.Improved, true, true),
                 out _window,
-                out var _gd);
+                out var gd);
 
-            var _cl = _gd.ResourceFactory.CreateCommandList();
-            var _controller = new ImGuiController(_gd, _window, _gd.MainSwapchain.Framebuffer.OutputDescription, _window.Width, _window.Height);
+            var cl = gd.ResourceFactory.CreateCommandList();
+            var controller = new ImGuiController(gd, _window, gd.MainSwapchain.Framebuffer.OutputDescription, _window.Width, _window.Height);
 
             _window.Resized += () =>
             {
-                _gd.MainSwapchain.Resize((uint)_window.Width, (uint)_window.Height);
-                _controller.WindowResized(_window.Width, _window.Height);
+                gd.MainSwapchain.Resize((uint)_window.Width, (uint)_window.Height);
+                controller.WindowResized(_window.Width, _window.Height);
             };
 
             // Main application loop
@@ -70,25 +70,25 @@ namespace ImGuiNET
             {
                 InputSnapshot snapshot = _window.PumpEvents();
                 if (!_window.Exists) { break; }
-                _controller.Update(1f / 60f, snapshot); // Feed the input events to our ImGui controller, which passes them through to ImGui.
+                controller.Update(1f / 60f, snapshot); // Feed the input events to our ImGui controller, which passes them through to ImGui.
 
                 uiLoop();
 
-                _cl.Begin();
-                _cl.SetFramebuffer(_gd.MainSwapchain.Framebuffer);
-                _cl.ClearColorTarget(0, new RgbaFloat(clearColor.X, clearColor.Y, clearColor.Z, 1f));
-                _controller.Render(_gd, _cl);
-                _cl.End();
-                _gd.SubmitCommands(_cl);
-                _gd.SwapBuffers(_gd.MainSwapchain);
-                _controller.SwapExtraWindows(_gd);
+                cl.Begin();
+                cl.SetFramebuffer(gd.MainSwapchain.Framebuffer);
+                cl.ClearColorTarget(0, new RgbaFloat(clearColor.X, clearColor.Y, clearColor.Z, 1f));
+                controller.Render(gd, cl);
+                cl.End();
+                gd.SubmitCommands(cl);
+                gd.SwapBuffers(gd.MainSwapchain);
+                controller.SwapExtraWindows(gd);
             }
 
             // Clean up Veldrid resources
-            _gd.WaitForIdle();
-            _controller.Dispose();
-            _cl.Dispose();
-            _gd.Dispose();
+            gd.WaitForIdle();
+            controller.Dispose();
+            cl.Dispose();
+            gd.Dispose();
         }
     }
 }
