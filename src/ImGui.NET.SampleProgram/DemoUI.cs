@@ -9,18 +9,18 @@ namespace ImGuiNET
         private static float _f = 0.0f;
         private static int _counter = 0;
         private static int _dragInt = 0;
-        private static Vector3 _clearColor = new Vector3(0.45f, 0.55f, 0.6f);
+        private static Vector3 _clearColor = new(0.45f, 0.55f, 0.6f);
         private static bool _showImGuiDemoWindow = true;
         private static bool _showAnotherWindow = false;
         private static bool _showMemoryEditor = false;
         //private static MemoryEditor _memoryEditor;
         //private static byte[] _memoryEditorData;
         private static uint s_tab_bar_flags = (uint)ImGuiTabBarFlags.Reorderable;
-        static bool[] s_opened = { true, true, true, true }; // Persistent user state
+        private static readonly bool[] s_opened = { true, true, true, true }; // Persistent user state
 
         static void SetThing(out float i, float val) { i = val; }
 
-        private static void Main(string[] args)
+        private static void Main()
         {
             //_memoryEditor = new MemoryEditor();
             //Random random = new Random();
