@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Numerics;
-using ImPlotNET;
 using Veldrid;
 using Veldrid.Sdl2;
 using Veldrid.StartupUtilities;
