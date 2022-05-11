@@ -13,9 +13,6 @@ namespace ImGuiNET
 
 
         private Sdl2Window _window;
-        private GraphicsDevice _gd;
-        private CommandList _cl;
-        private ImGuiController _controller;
         public Vector3 clearColor = new Vector3(0.45f, 0.55f, 0.6f);
 
         #region windowTitle
@@ -57,14 +54,16 @@ namespace ImGuiNET
                 new WindowCreateInfo(50, 50, 1280, 720, WindowState.Normal, windowTitle),
                 new GraphicsDeviceOptions(true, null, true, ResourceBindingModel.Improved, true, true),
                 out _window,
-                out _gd);
+                out var _gd);
+
+            var _cl = _gd.ResourceFactory.CreateCommandList();
+            var _controller = new ImGuiController(_gd, _window, _gd.MainSwapchain.Framebuffer.OutputDescription, _window.Width, _window.Height);
+
             _window.Resized += () =>
             {
                 _gd.MainSwapchain.Resize((uint)_window.Width, (uint)_window.Height);
                 _controller.WindowResized(_window.Width, _window.Height);
             };
-            _cl = _gd.ResourceFactory.CreateCommandList();
-            _controller = new ImGuiController(_gd, _window, _gd.MainSwapchain.Framebuffer.OutputDescription, _window.Width, _window.Height);
 
             // Main application loop
             while (_window.Exists)
