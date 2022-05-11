@@ -9,7 +9,6 @@ namespace ImGuiNET
         private static float _f = 0.0f;
         private static int _counter = 0;
         private static int _dragInt = 0;
-        private static Vector3 _clearColor = new(0.45f, 0.55f, 0.6f);
         private static bool _showImGuiDemoWindow = true;
         private static bool _showAnotherWindow = false;
         private static bool _showMemoryEditor = false;
@@ -20,19 +19,25 @@ namespace ImGuiNET
 
         static void SetThing(out float i, float val) { i = val; }
 
+        const string customWindowTitle = "ImGui.NET Sample Program";
+        static bool useDefaultWindowTitle;
+        static bool animateWindowTitle;
+
         private static void Main()
         {
             //_memoryEditor = new MemoryEditor();
             //Random random = new Random();
             //_memoryEditorData = Enumerable.Range(0, 1024).Select(i => (byte)random.Next(255)).ToArray();
 
-            new ImVeldridApp().Run("ImGui.NET Sample Program", SubmitUI);
+            new ImVeldridApp(customWindowTitle).Run(SubmitUI);
         }
 
         private static unsafe void SubmitUI()
         {
             // Demo code adapted from the official Dear ImGui demo program:
             // https://github.com/ocornut/imgui/blob/master/examples/example_win32_directx11/main.cpp#L172
+
+            var app = ImVeldridApp.current;
 
             // 1. Show the ImGui demo window. Most of the sample code is in ImGui.ShowDemoWindow(). Read its code to learn more about Dear ImGui!
             // Do this first so next windows can be docked when enabling the demo dockspace.
@@ -50,7 +55,20 @@ namespace ImGuiNET
             {
                 ImGui.Text("Hello, world!");                                        // Display some text (you can use a format string too)
                 ImGui.SliderFloat("float", ref _f, 0, 1, _f.ToString("0.000"));  // Edit 1 float using a slider from 0.0f to 1.0f    
-                //ImGui.ColorEdit3("clear color", ref _clearColor);                   // Edit 3 floats representing a color
+                ImGui.ColorEdit3("clear color", ref app.clearColor);                   // Edit 3 floats representing a color
+
+                #region window title
+
+                ImGui.Separator();
+                
+                ImGui.Checkbox("Use app name as window title", ref useDefaultWindowTitle);
+                ImGui.Checkbox("Animate window title", ref animateWindowTitle);
+                var title = useDefaultWindowTitle ? ImVeldridApp.defaultWindowTitle : customWindowTitle;
+                app.windowTitle = animateWindowTitle ? $"{title} - {ImGui.GetFrameCount()}" : title;
+
+                ImGui.Separator();
+
+                #endregion
 
                 ImGui.Text($"Mouse position: {ImGui.GetMousePos()}");
                 ImGui.Text($"Mouse down: {ImGui.GetIO().MouseDown[0]}");
