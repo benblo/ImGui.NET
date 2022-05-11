@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ImGuiNET
 {
-    public class FixedAsciiString : IDisposable
+    internal class FixedAsciiString : IDisposable
     {
         public IntPtr DataPtr { get; }
 

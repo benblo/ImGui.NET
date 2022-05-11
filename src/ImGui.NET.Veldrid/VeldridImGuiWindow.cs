@@ -6,7 +6,7 @@ using Veldrid.StartupUtilities;
 
 namespace ImGuiNET
 {
-    public class VeldridImGuiWindow : IDisposable
+    internal class VeldridImGuiWindow : IDisposable
     {
         private readonly GCHandle _gcHandle;
         private readonly GraphicsDevice _gd;
