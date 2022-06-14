@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Numerics;
 using System.Reflection;
 using Veldrid;
@@ -66,11 +67,15 @@ namespace ImGuiNET
             };
 
             // Main application loop
+            var watch = Stopwatch.StartNew();
             while (_window.Exists)
             {
                 InputSnapshot snapshot = _window.PumpEvents();
                 if (!_window.Exists) { break; }
-                controller.Update(1f / 60f, snapshot); // Feed the input events to our ImGui controller, which passes them through to ImGui.
+
+                var dt = watch.Elapsed.TotalSeconds;
+                watch.Restart();
+                controller.Update((float)dt, snapshot); // Feed the input events to our ImGui controller, which passes them through to ImGui.
 
                 uiLoop();
 
